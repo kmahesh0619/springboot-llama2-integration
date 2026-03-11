@@ -1,4 +1,4 @@
-# AI-Powered Factory Incident & SLA Management Platform
+# AI-Powered Industrial Incident & SLA Management Platform
 
 ## 1. Project Overview
 (Worker Incident Diagnostic Assistant) is an enterprise-grade backend system designed for industrial factory environments. It leverages Local LLMs (**Llama2 via Ollama**) to automate the triage, classification, and routing of safety incidents reported by frontline workers. The system ensures operational safety and accountability through a strict **SLA Engine** and **Role-Based Access Control (RBAC)**.
