@@ -1,6 +1,6 @@
 spring:
   application:
-    name: digitize-home
+    name: industrial-incident-ai
 
   jackson:
     serialization:

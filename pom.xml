@@ -13,9 +13,9 @@
     </parent>
 
     <groupId>com.example.localchat</groupId>
-    <artifactId>localchat-backend</artifactId>
+    <artifactId>industrial-incident-ai</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>localchat-backend</name>
+    <name>industrial-incident-ai</name>
     <description>Production-grade Spring Boot 3 / Java 21 Local AI Chat Backend for Ollama (Llama2)</description>
 
     <properties>
