@@ -1,0 +1,83 @@
+# ##############################################################################
+# PRODUCTION-READY .GITIGNORE (Spring Boot + Vite + IDEs + OS)
+# ##############################################################################
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build Artifacts (Maven/Java)
+target/
+*.class
+*.war
+*.ear
+*.jar
+*.zip
+*.tar.gz
+*.rar
+
+# Node / Frontend (Vite)
+node_modules/
+dist/
+dist-ssr/
+*.local
+.eslintcache
+.stylelintcache
+.vite/
+cypress/videos/
+cypress/screenshots/
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary / Cache
+.mvn/wrapper/maven-wrapper.jar
+.gradle/
+build/
+.cache/
+.npm
+/tmp/
+
+# Sensitive Files (CONFIDENTIAL)
+# NEVER commit these files - they contain credentials and keys
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+application-local.yml
+application-local.properties
+*.pem
+*.key
+*.jks
+*.p12
+*.pub
+secret.txt
+credentials.json
+firebase-key.json
+google-services.json
+
+# Local Configuration (Overrides)
+application-local.properties
+application-local.yml
+local.properties

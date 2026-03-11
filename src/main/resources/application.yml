@@ -1,0 +1,138 @@
+spring:
+  application:
+    name: digitize-home
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+  cache:
+    type: caffeine
+
+  # ─── Database Configuration ─────────────────────────────────────────
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/factory_incidents}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
+    show-sql: false
+
+  # ─── Spring AI Configuration (Ollama) ───────────────────────────────
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      model: llama2
+      timeout: 120s
+
+# ─── Server ──────────────────────────────────────────────────────────
+server:
+  port: 8080
+  address: 0.0.0.0
+  servlet:
+    context-path: /factory_incidents
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: always
+    include-exception: true
+
+# ─── Actuator ────────────────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+
+# ─── Logging ─────────────────────────────────────────────────────────
+logging:
+  level:
+    root: INFO
+    com.example.localchat: DEBUG
+
+# ─── Ollama Custom Settings ──────────────────────────────────────────
+ollama:
+  base-url: http://localhost:11434
+  model: llama2
+  timeout-seconds: 90
+
+# ─── Chat Settings ───────────────────────────────────────────────────
+chat:
+  max-history-messages: 15
+  system-prompt: "You are a helpful, accurate, and concise AI assistant. Answer questions clearly. If you don't know something, say so."
+
+# ─── Incident Management Settings ────────────────────────────────────
+incident:
+  ai:
+    classification-prompt: "You are a factory incident classifier. Analyze worker message and respond ONLY with JSON (no markdown). Use format: {\"incidentType\": \"TYPE\", \"severity\": \"LEVEL\", \"department\": \"DEPT\", \"priority\": \"P1-P4\", \"suggestedActions\": [\"action1\"]}"
+    temperature: 0.5
+    max-tokens: 500
+  sla:
+    critical-minutes: 1
+    high-minutes: 2
+    medium-minutes: 3
+    low-minutes: 5
+    #critical-minutes: 30
+    #high-minutes: 240
+    #medium-minutes: 1440
+    #low-minutes: 4320
+
+
+# ─── Caffeine Cache ──────────────────────────────────────────────────
+cache:
+  conversations:
+    max-size: 500
+    expire-after-write-minutes: 30
+
+# ─── Resilience4j Retry ──────────────────────────────────────────────
+resilience4j:
+  retry:
+    instances:
+      ollama:
+        max-attempts: 2
+        wait-duration: 500ms
+        retry-exceptions:
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+          - org.springframework.web.client.ResourceAccessException
+
+# ─── Security Settings ───────────────────────────────────────────────
+security:
+  jwt:
+    # 256-bit hex secret
+    secret-key: ${JWT_SECRET}
+    expiration-time: 3600000 # 1 hour
+  lock:
+    max-attempts: 5
+    lock-duration-minutes: 30
+
+# ─── Swagger / SpringDoc ─────────────────────────────────────────────
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    try-it-out-enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
